@@ -13,6 +13,8 @@ import { mockUsers } from "@/lib/mockData";
 const ProfilePage = () => {
   // For demo purposes, let's use the first user from mockUsers
   const user = mockUsers.find(user => user.role === "user") || mockUsers[0];
+  const displayName = `${user.firstName} ${user.lastName}`;
+  const initials = `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`;
   
   return (
     <DashboardLayout userType="user">
@@ -27,13 +29,13 @@ const ProfilePage = () => {
             <CardContent className="pt-6">
               <div className="flex flex-col items-center space-y-4">
                 <Avatar className="w-24 h-24">
-                  <AvatarImage src={user.avatar} />
+                  <AvatarImage src="/placeholder.svg" />
                   <AvatarFallback className="text-lg">
-                    {user.name.substring(0, 2).toUpperCase()}
+                    {initials}
                   </AvatarFallback>
                 </Avatar>
                 <div className="text-center">
-                  <h3 className="text-lg font-medium">{user.name}</h3>
+                  <h3 className="text-lg font-medium">{displayName}</h3>
                   <p className="text-sm text-gray-500">{user.email}</p>
                 </div>
                 <Button variant="outline" size="sm" className="w-full">
@@ -49,7 +51,7 @@ const ProfilePage = () => {
                     Member Since
                   </div>
                   <div className="text-sm font-medium">
-                    {new Date(user.memberSince).toLocaleDateString()}
+                    {new Date().toLocaleDateString()}
                   </div>
                 </div>
                 
@@ -58,7 +60,7 @@ const ProfilePage = () => {
                     Books Borrowed
                   </div>
                   <div className="text-sm font-medium">
-                    {user.borrowedBooks}
+                    {user.borrowedBooks.length}
                   </div>
                 </div>
                 
@@ -66,8 +68,8 @@ const ProfilePage = () => {
                   <div className="text-sm">
                     Status
                   </div>
-                  <div className={`text-sm font-medium ${user.status === "active" ? "text-green-500" : "text-red-500"}`}>
-                    {user.status.charAt(0).toUpperCase() + user.status.slice(1)}
+                  <div className="text-sm font-medium text-green-500">
+                    Active
                   </div>
                 </div>
               </div>
@@ -101,11 +103,11 @@ const ProfilePage = () => {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <Label htmlFor="firstName">First Name</Label>
-                          <Input id="firstName" defaultValue={user.name.split(' ')[0]} />
+                          <Input id="firstName" defaultValue={user.firstName} />
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="lastName">Last Name</Label>
-                          <Input id="lastName" defaultValue={user.name.split(' ')[1] || ''} />
+                          <Input id="lastName" defaultValue={user.lastName} />
                         </div>
                       </div>
                       

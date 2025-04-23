@@ -41,51 +41,55 @@ const UsersPage = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {users.map((user) => (
-                <div key={user.id} className="flex items-center p-4 border border-gray-100 rounded-lg hover:bg-gray-50">
-                  <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden flex-shrink-0 mr-4 flex items-center justify-center">
-                    {user.avatar ? (
-                      <img
-                        src={user.avatar}
-                        alt={user.name}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <span className="text-gray-500 font-medium">
-                        {user.name.substring(0, 2).toUpperCase()}
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="font-medium">{user.name}</h4>
-                    <p className="text-sm text-gray-500">{user.email}</p>
-                  </div>
-                  <div className="px-4">
-                    <div className="flex items-center">
-                      <Book className="h-3.5 w-3.5 mr-1 text-gray-400" />
-                      <p className="text-sm text-gray-600">
-                        {user.borrowedBooks} books borrowed
+              {users.map((user) => {
+                const displayName = `${user.firstName} ${user.lastName}`;
+                const initials = `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`;
+                return (
+                  <div key={user.id} className="flex items-center p-4 border border-gray-100 rounded-lg hover:bg-gray-50">
+                    <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden flex-shrink-0 mr-4 flex items-center justify-center">
+                      {user.avatar ? (
+                        <img
+                          src={user.avatar}
+                          alt={displayName}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-gray-500 font-medium">
+                          {initials.toUpperCase()}
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-medium">{displayName}</h4>
+                      <p className="text-sm text-gray-500">{user.email}</p>
+                    </div>
+                    <div className="px-4">
+                      <div className="flex items-center">
+                        <Book className="h-3.5 w-3.5 mr-1 text-gray-400" />
+                        <p className="text-sm text-gray-600">
+                          {user.borrowedBooks.length} books borrowed
+                        </p>
+                      </div>
+                      <p className="text-xs text-gray-500">
+                        Member since {new Date().toLocaleDateString()}
                       </p>
                     </div>
-                    <p className="text-xs text-gray-500">
-                      Member since {new Date(user.memberSince).toLocaleDateString()}
-                    </p>
+                    <div className="px-4">
+                      <Badge variant="outline" className={user.role === "user" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}>
+                        {user.role}
+                      </Badge>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button variant="outline" size="sm">
+                        View
+                      </Button>
+                      <Button size="sm" variant="secondary">
+                        Edit
+                      </Button>
+                    </div>
                   </div>
-                  <div className="px-4">
-                    <Badge variant={user.status === "active" ? "success" : "destructive"}>
-                      {user.status}
-                    </Badge>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button variant="outline" size="sm">
-                      View
-                    </Button>
-                    <Button size="sm" variant="secondary">
-                      Edit
-                    </Button>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </CardContent>
         </Card>

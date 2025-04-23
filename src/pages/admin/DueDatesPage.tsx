@@ -1,4 +1,3 @@
-
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { mockBorrowedBooks, mockUsers } from "@/lib/mockData";
@@ -39,7 +38,7 @@ const DueDatesPage = () => {
   );
 
   const renderBookItem = (book) => {
-    const user = mockUsers.find(u => u.id === book.userId);
+    const user = mockUsers.find(u => u.id === book.id.substring(0, 5)); // Temporary fix to associate books with users
     const daysLeft = Math.ceil(
       (book.dueDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
     );
@@ -54,6 +53,9 @@ const DueDatesPage = () => {
       statusColor = "text-orange-500";
       statusText = "Due today";
     }
+    
+    const displayName = user ? `${user.firstName} ${user.lastName}` : "Unknown User";
+    const email = user ? user.email : "unknown@example.com";
 
     return (
       <div key={book.id} className="flex items-center p-4 border border-gray-100 rounded-lg">
@@ -75,9 +77,9 @@ const DueDatesPage = () => {
           </div>
         </div>
         <div className="px-4">
-          <p className="text-sm font-medium">{user?.name || "User"}</p>
+          <p className="text-sm font-medium">{displayName}</p>
           <p className="text-xs text-gray-500">
-            {user?.email || "user@example.com"}
+            {email}
           </p>
           <p className={`text-xs font-medium mt-1 ${statusColor}`}>
             {statusText}

@@ -38,13 +38,16 @@ const IssuedBooksPage = () => {
           <CardContent>
             <div className="space-y-4">
               {mockBorrowedBooks.map((book) => {
-                const user = mockUsers.find(u => u.id === book.userId);
+                const user = mockUsers.find(u => u.id === book.id.substring(0, 5)); // Temporary fix to associate books with users
                 const daysLeft = Math.ceil(
                   (book.dueDate.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)
                 );
                 let statusColor = "text-green-500";
                 if (daysLeft < 0) statusColor = "text-red-500";
                 else if (daysLeft < 3) statusColor = "text-orange-500";
+                
+                const displayName = user ? `${user.firstName} ${user.lastName}` : "Unknown User";
+                const email = user ? user.email : "unknown@example.com";
 
                 return (
                   <div key={book.id} className="flex items-center p-4 border border-gray-100 rounded-lg hover:bg-gray-50">
@@ -67,11 +70,11 @@ const IssuedBooksPage = () => {
                       <div className="flex items-center">
                         <Users className="h-3.5 w-3.5 mr-1 text-gray-400" />
                         <p className="text-sm text-gray-600">
-                          {user?.name || "User"}
+                          {displayName}
                         </p>
                       </div>
                       <p className="text-xs text-gray-500">
-                        {user?.email || "user@example.com"}
+                        {email}
                       </p>
                     </div>
                     <div className="px-4 text-right">
