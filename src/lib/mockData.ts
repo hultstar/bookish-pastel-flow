@@ -1,4 +1,3 @@
-
 import { formatDistanceToNow } from "date-fns";
 
 export interface Book {
@@ -58,16 +57,17 @@ export const categories = [
   "Poetry"
 ];
 
-// Generate random book covers based on category and title
-const getCoverUrl = (category: string, title: string): string => {
-  // In a real app, this would fetch from an actual image API or database
-  // For now, we'll use placeholder images
-  const colors = [
-    "4F6D7A", "DD6E42", "7FB069", "6B2D5C", "F0544F", 
-    "3F88C5", "5B5F97", "907AD6", "6A0572", "7D82B8"
+// Generate random book covers using Unsplash images
+const getBookCoverUrl = (index: number): string => {
+  const images = [
+    'https://images.unsplash.com/photo-1506744038136-46273834b3fb', // landscape
+    'https://images.unsplash.com/photo-1517022812141-23620dba5c23', // sheep
+    'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b', // laptop
+    'https://images.unsplash.com/photo-1461749280684-dccba630e2f6', // code
+    'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158', // woman laptop
+    'https://images.unsplash.com/photo-1531297484001-80022131f5a1', // laptop
   ];
-  const colorIndex = Math.floor(Math.abs(title.charCodeAt(0) + category.charCodeAt(0)) % colors.length);
-  return `https://via.placeholder.com/300x450/${colors[colorIndex]}/FFFFFF?text=${encodeURIComponent(title)}`;
+  return images[index % images.length];
 };
 
 // Mock Users
@@ -107,7 +107,7 @@ export const mockBooks: Book[] = [
     id: "book1",
     title: "The Great Gatsby",
     author: "F. Scott Fitzgerald",
-    coverImage: getCoverUrl("Fiction", "The Great Gatsby"),
+    coverImage: getBookCoverUrl(0),
     category: "Fiction",
     description: "A novel of the Jazz Age, following the mysterious millionaire Jay Gatsby and his obsession for the beautiful Daisy Buchanan.",
     available: false,
@@ -120,7 +120,7 @@ export const mockBooks: Book[] = [
     id: "book2",
     title: "To Kill a Mockingbird",
     author: "Harper Lee",
-    coverImage: getCoverUrl("Fiction", "To Kill a Mockingbird"),
+    coverImage: getBookCoverUrl(1),
     category: "Fiction",
     description: "The story of racial injustice and loss of innocence seen through the eyes of a young girl in the American South.",
     available: false,
@@ -133,7 +133,7 @@ export const mockBooks: Book[] = [
     id: "book3",
     title: "1984",
     author: "George Orwell",
-    coverImage: getCoverUrl("Science Fiction", "1984"),
+    coverImage: getBookCoverUrl(2),
     category: "Science Fiction",
     description: "A dystopian novel set in a totalitarian society where the government monitors and controls every aspect of human life.",
     available: false,
@@ -146,7 +146,7 @@ export const mockBooks: Book[] = [
     id: "book4",
     title: "Pride and Prejudice",
     author: "Jane Austen",
-    coverImage: getCoverUrl("Romance", "Pride and Prejudice"),
+    coverImage: getBookCoverUrl(3),
     category: "Romance",
     description: "A romantic novel of manners that follows the character development of Elizabeth Bennet and her relationship with Mr. Darcy.",
     available: true,
@@ -159,7 +159,7 @@ export const mockBooks: Book[] = [
     id: "book5",
     title: "The Hobbit",
     author: "J.R.R. Tolkien",
-    coverImage: getCoverUrl("Fantasy", "The Hobbit"),
+    coverImage: getBookCoverUrl(4),
     category: "Fantasy",
     description: "A fantasy novel about the adventures of hobbit Bilbo Baggins who sets out on a quest to win a share of a treasure guarded by a dragon.",
     available: true,
@@ -172,7 +172,7 @@ export const mockBooks: Book[] = [
     id: "book6",
     title: "The Catcher in the Rye",
     author: "J.D. Salinger",
-    coverImage: getCoverUrl("Fiction", "The Catcher in the Rye"),
+    coverImage: getBookCoverUrl(5),
     category: "Fiction",
     description: "A novel about the experiences of a teenager named Holden Caulfield after he is expelled from prep school.",
     available: true,
@@ -185,7 +185,7 @@ export const mockBooks: Book[] = [
     id: "book7",
     title: "Lord of the Flies",
     author: "William Golding",
-    coverImage: getCoverUrl("Fiction", "Lord of the Flies"),
+    coverImage: getBookCoverUrl(0),
     category: "Fiction",
     description: "A novel about a group of British boys stranded on an uninhabited island and their disastrous attempt to govern themselves.",
     available: true,
@@ -198,7 +198,7 @@ export const mockBooks: Book[] = [
     id: "book8",
     title: "Moby Dick",
     author: "Herman Melville",
-    coverImage: getCoverUrl("Fiction", "Moby Dick"),
+    coverImage: getBookCoverUrl(1),
     category: "Fiction",
     description: "A novel about the obsessive quest of Captain Ahab to seek revenge on a giant white sperm whale that bit off his leg.",
     available: true,
@@ -211,7 +211,7 @@ export const mockBooks: Book[] = [
     id: "book9",
     title: "Brave New World",
     author: "Aldous Huxley",
-    coverImage: getCoverUrl("Science Fiction", "Brave New World"),
+    coverImage: getBookCoverUrl(2),
     category: "Science Fiction",
     description: "A dystopian novel set in a futuristic world state where people are genetically engineered and conditioned to serve society.",
     available: true,
@@ -224,7 +224,7 @@ export const mockBooks: Book[] = [
     id: "book10",
     title: "The Alchemist",
     author: "Paulo Coelho",
-    coverImage: getCoverUrl("Fiction", "The Alchemist"),
+    coverImage: getBookCoverUrl(3),
     category: "Fiction",
     description: "A novel about a young Andalusian shepherd who dreams of finding treasure at the Egyptian pyramids and embarks on a journey of self-discovery.",
     available: true,
