@@ -10,6 +10,11 @@ interface BookCardProps {
 }
 
 const BookCard = ({ book, onBorrow }: BookCardProps) => {
+  // Fallback image in case the book cover fails to load
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    e.currentTarget.src = "https://via.placeholder.com/300x450/6C8EAD/FFFFFF?text=No+Cover";
+  };
+
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
       <div className="relative">
@@ -17,6 +22,7 @@ const BookCard = ({ book, onBorrow }: BookCardProps) => {
           src={book.coverImage} 
           alt={`${book.title} cover`} 
           className="w-full h-56 object-cover"
+          onError={handleImageError}
         />
         <div className="absolute top-2 right-2">
           <Badge variant={book.available ? "default" : "outline"} className={book.available ? "bg-green-500" : "bg-gray-200 text-gray-700"}>
