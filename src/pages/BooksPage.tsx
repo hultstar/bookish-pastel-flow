@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { mockBooks, Book, categories } from "@/lib/mockData";
 import BookCard from "@/components/books/BookCard";
 import NavigationBar from "@/components/layout/NavigationBar";
@@ -9,10 +9,24 @@ import { Badge } from "@/components/ui/badge";
 import { Search, X } from "lucide-react";
 
 const BooksPage = () => {
-  const [books, setBooks] = useState<Book[]>(mockBooks);
+  const [books, setBooks] = useState<Book[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [availableOnly, setAvailableOnly] = useState(false);
+
+  // Simulate loading books
+  useEffect(() => {
+    console.log("Loading books data...");
+    // Simulate a small delay to ensure DOM is ready
+    const timer = setTimeout(() => {
+      setBooks(mockBooks);
+      setIsLoading(false);
+      console.log("Books data loaded", mockBooks);
+    }, 300);
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleBorrow = (bookId: string) => {
     setBooks(prevBooks =>
@@ -115,7 +129,24 @@ const BooksPage = () => {
             </div>
           </div>
           
-          {filteredBooks.length > 0 ? (
+          {isLoading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1, 2, 3, 4, 5, 6].map((placeholder) => (
+                <div key={placeholder} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                  <div className="h-56 bg-gray-100 animate-pulse" />
+                  <div className="p-4">
+                    <div className="h-6 bg-gray-100 animate-pulse rounded mb-2" />
+                    <div className="h-4 bg-gray-100 animate-pulse rounded w-2/3 mb-3" />
+                    <div className="h-10 bg-gray-100 animate-pulse rounded mb-4" />
+                    <div className="flex justify-between">
+                      <div className="h-8 bg-gray-100 animate-pulse rounded w-20" />
+                      <div className="h-8 bg-gray-100 animate-pulse rounded w-20" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : filteredBooks.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredBooks.map(book => (
                 <BookCard
