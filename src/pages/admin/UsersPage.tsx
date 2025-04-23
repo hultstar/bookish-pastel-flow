@@ -6,6 +6,7 @@ import { Search, UserPlus, Book } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const UsersPage = () => {
   // Filter only regular users (not admins)
@@ -46,19 +47,10 @@ const UsersPage = () => {
                 const initials = `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`;
                 return (
                   <div key={user.id} className="flex items-center p-4 border border-gray-100 rounded-lg hover:bg-gray-50">
-                    <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden flex-shrink-0 mr-4 flex items-center justify-center">
-                      {user.avatar ? (
-                        <img
-                          src={user.avatar}
-                          alt={displayName}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <span className="text-gray-500 font-medium">
-                          {initials.toUpperCase()}
-                        </span>
-                      )}
-                    </div>
+                    <Avatar className="h-10 w-10 mr-4">
+                      <AvatarImage src={undefined} alt={displayName} />
+                      <AvatarFallback>{initials.toUpperCase()}</AvatarFallback>
+                    </Avatar>
                     <div className="flex-1">
                       <h4 className="font-medium">{displayName}</h4>
                       <p className="text-sm text-gray-500">{user.email}</p>
